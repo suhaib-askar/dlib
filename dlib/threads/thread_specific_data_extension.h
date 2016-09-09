@@ -5,6 +5,7 @@
 
 #include "thread_specific_data_extension_abstract.h"
 #include "threads_kernel_abstract.h"
+#include "threads_kernel_shared.h"
 #include "../binary_search_tree.h"
 #include "auto_mutex_extension.h"
 

@@ -13,6 +13,7 @@
 #include "threads/auto_mutex_extension.h"
 #include "threads/auto_unlock_extension.h"
 #include "threads/create_new_thread_extension.h"
+#include "threads/threads_kernel_shared.h"
 #include "threads/multithreaded_object_extension.h"
 #include "threads/rmutex_extension.h"
 #include "threads/rsignaler_extension.h"

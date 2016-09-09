@@ -10,6 +10,7 @@
 
 #include <cublas_v2.h>
 #include <vector>
+#include "../threads/thread_specific_data_extension.h"
 
 static const char* cublas_get_error_string(cublasStatus_t s)
 {
@@ -88,8 +89,8 @@ namespace dlib
 
         static cublasHandle_t context()
         {
-            thread_local cublas_context c;
-            return c.get_handle();
+            thread_specific_data<cublas_context> c;
+            return c.data().get_handle();
         }
 
     // -----------------------------------------------------------------------------------

@@ -170,7 +170,6 @@ namespace dlib
 
 }
 
-#include "threads_kernel_shared.h"
 
 #ifdef NO_MAKEFILE
 #include "threads_kernel_2.cpp"
