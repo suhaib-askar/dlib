@@ -113,7 +113,7 @@ namespace dlib
 
         static cudnnHandle_t context()
         {
-            thread_specific_data<cudnn_context> c;
+            static thread_specific_data<cudnn_context> c;
             return c.data().get_handle();
         }
 
@@ -153,21 +153,21 @@ namespace dlib
 
         static cudnnActivationDescriptor_t relu_activation_descriptor()
         {
-            thread_specific_data<cudnn_activation_descriptor> des;
+            static thread_specific_data<cudnn_activation_descriptor> des;
             des.data().init(CUDNN_ACTIVATION_RELU, CUDNN_PROPAGATE_NAN,0);
             return des.data().get_handle();
         }
 
         static cudnnActivationDescriptor_t sigmoid_activation_descriptor()
         {
-            thread_specific_data<cudnn_activation_descriptor> des;
+            static thread_specific_data<cudnn_activation_descriptor> des;
             des.data().init(CUDNN_ACTIVATION_SIGMOID, CUDNN_PROPAGATE_NAN,0);
             return des.data().get_handle();
         }
 
         static cudnnActivationDescriptor_t tanh_activation_descriptor()
         {
-            thread_specific_data<cudnn_activation_descriptor> des;
+            static thread_specific_data<cudnn_activation_descriptor> des;
             des.data().init(CUDNN_ACTIVATION_TANH, CUDNN_PROPAGATE_NAN,0);
             return des.data().get_handle();
         }
