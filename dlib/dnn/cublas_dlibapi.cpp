@@ -89,7 +89,7 @@ namespace dlib
 
         static cublasHandle_t context()
         {
-            static thread_specific_data<cublas_context> c;
+            static auto& c = *new thread_specific_data<cublas_context>;
             return c.data().get_handle();
         }
 
