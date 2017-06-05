@@ -12,6 +12,8 @@
 #include "../assert.h"
 #include "../map.h"
 #include "../member_function_pointer.h"
+#include "../memory_manager.h"
+#include "../queue.h"
 
 namespace dlib
 {

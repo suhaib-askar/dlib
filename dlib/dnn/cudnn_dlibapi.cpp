@@ -15,6 +15,7 @@
 #include "cpu_dlib.h"
 #include "cuda_dlib.h"
 #include "tensor_tools.h"
+#include "../threads/thread_specific_data_extension.h"
 
 static const char* cudnn_get_error_string(cudnnStatus_t s)
 {
@@ -114,8 +115,8 @@ namespace dlib
 
         static cudnnHandle_t context()
         {
-            thread_local cudnn_context c;
-            return c.get_handle();
+            static auto& c = *new thread_specific_data<cudnn_context>;
+            return c.data().get_handle();
         }
 
     // ------------------------------------------------------------------------------------
@@ -124,10 +125,11 @@ namespace dlib
         {
         public:
             // not copyable 
+            cudnn_activation_descriptor() {};
             cudnn_activation_descriptor(const cudnn_activation_descriptor&) = delete;
             cudnn_activation_descriptor& operator=(const cudnn_activation_descriptor&) = delete;
 
-            cudnn_activation_descriptor(
+            void init(
                 cudnnActivationMode_t mode,
                 cudnnNanPropagation_t reluNanOpt,
                 double reluCeiling
@@ -153,20 +155,23 @@ namespace dlib
 
         static cudnnActivationDescriptor_t relu_activation_descriptor()
         {
-            thread_local cudnn_activation_descriptor des(CUDNN_ACTIVATION_RELU, CUDNN_PROPAGATE_NAN,0);
-            return des.get_handle();
+            static auto& des = *new thread_specific_data<cudnn_activation_descriptor>;
+            des.data().init(CUDNN_ACTIVATION_RELU, CUDNN_PROPAGATE_NAN,0);
+            return des.data().get_handle();
         }
 
         static cudnnActivationDescriptor_t sigmoid_activation_descriptor()
         {
-            thread_local cudnn_activation_descriptor des(CUDNN_ACTIVATION_SIGMOID, CUDNN_PROPAGATE_NAN,0);
-            return des.get_handle();
+            static auto& des = *new thread_specific_data<cudnn_activation_descriptor>;
+            des.data().init(CUDNN_ACTIVATION_SIGMOID, CUDNN_PROPAGATE_NAN,0);
+            return des.data().get_handle();
         }
 
         static cudnnActivationDescriptor_t tanh_activation_descriptor()
         {
-            thread_local cudnn_activation_descriptor des(CUDNN_ACTIVATION_TANH, CUDNN_PROPAGATE_NAN,0);
-            return des.get_handle();
+            static auto& des = *new thread_specific_data<cudnn_activation_descriptor>;
+            des.data().init(CUDNN_ACTIVATION_TANH, CUDNN_PROPAGATE_NAN,0);
+            return des.data().get_handle();
         }
 
     // ------------------------------------------------------------------------------------
